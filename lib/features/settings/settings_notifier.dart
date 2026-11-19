@@ -39,6 +39,9 @@ class SettingsNotifier extends StateNotifier<SettingsState> {
       final discordRpc = await _repository.getDiscordRpcEnabled();
       final obsOverlayMode = await _repository.getObsOverlayMode();
       final classicYptLook = await _repository.getClassicYptLook();
+      final classicUiScale = await _repository.getClassicUiScale();
+      final miniOpacity = await _repository.getMiniOpacity();
+      final offlineMode = await _repository.getOfflineMode();
       final betaChannel = await _repository.getBetaChannel();
 
       if (!mounted) return;
@@ -53,6 +56,9 @@ class SettingsNotifier extends StateNotifier<SettingsState> {
         discordRpcEnabled: discordRpc,
         obsOverlayMode: obsOverlayMode,
         classicYptLook: classicYptLook,
+        classicUiScale: classicUiScale,
+        miniOpacity: miniOpacity,
+        offlineMode: offlineMode,
         betaChannel: betaChannel,
         countryCategories: SettingsRepository.defaultFallbackCategories,
         availableCountries: SettingsRepository.defaultFallbackCountries,
@@ -151,6 +157,30 @@ class SettingsNotifier extends StateNotifier<SettingsState> {
   Future<void> toggleClassicYptLook(bool value) async {
     state = state.copyWith(classicYptLook: value);
     await _repository.saveClassicYptLook(value);
+  }
+
+  static const double minUiScale = 0.7;
+  static const double maxUiScale = 1.8;
+
+  /// Sets the Classic look's zoom, clamped to [minUiScale]..[maxUiScale] and
+  /// rounded to 5 % steps so repeated presses land on clean values.
+  Future<void> setClassicUiScale(double value) async {
+    final clamped = (value.clamp(minUiScale, maxUiScale) * 20).round() / 20;
+    if (clamped == state.classicUiScale) return;
+    state = state.copyWith(classicUiScale: clamped);
+    await _repository.saveClassicUiScale(clamped);
+  }
+
+  /// Opacity of the mini player, 30 % to 100 %.
+  Future<void> setMiniOpacity(double value) async {
+    final clamped = value.clamp(0.3, 1.0).toDouble();
+    state = state.copyWith(miniOpacity: clamped);
+    await _repository.saveMiniOpacity(clamped);
+  }
+
+  Future<void> toggleOfflineMode(bool value) async {
+    state = state.copyWith(offlineMode: value);
+    await _repository.saveOfflineMode(value);
   }
 
   /// Opts in or out of pre-release update checks.

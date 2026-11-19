@@ -3,8 +3,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/theme/theme_palette.dart';
 import '../../core/localization/app_translation.dart';
 import '../../features/timer/focus_mode_notifier.dart';
+import '../../features/timer/mini_player_view.dart';
 import '../../features/settings/settings_notifier.dart';
 import 'classic_tab_bar.dart';
+import 'classic_zoom.dart';
 import 'sidebar_nav.dart';
 
 class AppShell extends ConsumerWidget {
@@ -20,6 +22,10 @@ class AppShell extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final focusState = ref.watch(focusModeProvider);
+    // Mini player replaces every screen, in both layouts.
+    if (focusState.isMiniPlayer) {
+      return const Scaffold(backgroundColor: Colors.transparent, body: MiniPlayerView());
+    }
     final isFocusActive = focusState.isStrictFocus || focusState.isMiniPlayer;
     final t = ref.watch(appTranslationProvider);
     final palette = context.palette;
@@ -33,7 +39,7 @@ class AppShell extends ConsumerWidget {
             Column(
               children: [
                 if (!isFocusActive) ClassicTabBar(currentRoute: currentRoute),
-                Expanded(child: child),
+                Expanded(child: ClassicZoom(child: child)),
               ],
             )
           else

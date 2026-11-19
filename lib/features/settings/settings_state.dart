@@ -23,6 +23,16 @@ class SettingsState {
 
   /// Layout modelled on the YPT desktop app: top tabs instead of the sidebar.
   final bool classicYptLook;
+
+  /// Zoom of the Classic look (1.0 = 100 %), changed with Ctrl +/- or Ctrl + wheel.
+  final double classicUiScale;
+
+  /// Opacity of the floating mini player (0.3 to 1.0).
+  final double miniOpacity;
+
+  /// Offline mode: no network calls from the timer; sessions are queued and
+  /// synced when it is turned off.
+  final bool offlineMode;
   final bool betaChannel;
 
   const SettingsState({
@@ -41,6 +51,9 @@ class SettingsState {
     this.discordRpcEnabled = true,
     this.obsOverlayMode = false,
     this.classicYptLook = false,
+    this.classicUiScale = 1.0,
+    this.miniOpacity = 0.95,
+    this.offlineMode = false,
     this.betaChannel = false,
   });
 
@@ -60,6 +73,9 @@ class SettingsState {
     bool? discordRpcEnabled,
     bool? obsOverlayMode,
     bool? classicYptLook,
+    double? classicUiScale,
+    double? miniOpacity,
+    bool? offlineMode,
     bool? betaChannel,
   }) {
     return SettingsState(
@@ -78,6 +94,9 @@ class SettingsState {
       discordRpcEnabled: discordRpcEnabled ?? this.discordRpcEnabled,
       obsOverlayMode: obsOverlayMode ?? this.obsOverlayMode,
       classicYptLook: classicYptLook ?? this.classicYptLook,
+      classicUiScale: classicUiScale ?? this.classicUiScale,
+      miniOpacity: miniOpacity ?? this.miniOpacity,
+      offlineMode: offlineMode ?? this.offlineMode,
       betaChannel: betaChannel ?? this.betaChannel,
     );
   }
