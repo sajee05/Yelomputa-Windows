@@ -81,7 +81,7 @@ jobs:
         run: flutter pub get
 
       - name: Build Windows Release for Installer (Standalone)
-        run: flutter build windows --release --dart-define=ENABLE_IN_APP_UPDATER=true --dart-define=GOOGLE_CLIENT_ID="${{ secrets.GOOGLE_CLIENT_ID }}" --dart-define=GOOGLE_CLIENT_SECRET="${{ secrets.GOOGLE_CLIENT_SECRET }}" --dart-define=DISCORD_CLIENT_ID="${{ secrets.DISCORD_CLIENT_ID }}"
+        run: flutter build windows --release --dart-define=ENABLE_IN_APP_UPDATER=true --dart-define=GOOGLE_CLIENT_ID="${{ secrets.GOOGLE_CLIENT_ID }}" --dart-define=GOOGLE_CLIENT_SECRET="${{ secrets.GOOGLE_CLIENT_SECRET }}" --dart-define=DISCORD_CLIENT_ID="${{ secrets.DISCORD_CLIENT_ID || '1545409138211823747' }}"
 
       - name: Compile Inno Setup Installer
         run: |
@@ -89,7 +89,7 @@ jobs:
 
       - name: Build Windows Release for Microsoft Store (MSIX)
         if: ${{ !contains(github.ref_name, '-') && (github.event_name != 'workflow_dispatch' || !contains(github.event.inputs.version_tag, '-')) }}
-        run: flutter build windows --release --dart-define=ENABLE_IN_APP_UPDATER=false --dart-define=GOOGLE_CLIENT_ID="${{ secrets.GOOGLE_CLIENT_ID }}" --dart-define=GOOGLE_CLIENT_SECRET="${{ secrets.GOOGLE_CLIENT_SECRET }}" --dart-define=DISCORD_CLIENT_ID="${{ secrets.DISCORD_CLIENT_ID }}"
+        run: flutter build windows --release --dart-define=ENABLE_IN_APP_UPDATER=false --dart-define=GOOGLE_CLIENT_ID="${{ secrets.GOOGLE_CLIENT_ID }}" --dart-define=GOOGLE_CLIENT_SECRET="${{ secrets.GOOGLE_CLIENT_SECRET }}" --dart-define=DISCORD_CLIENT_ID="${{ secrets.DISCORD_CLIENT_ID || '1545409138211823747' }}"
 
       - name: Create Windows MSIX Package
         if: ${{ !contains(github.ref_name, '-') && (github.event_name != 'workflow_dispatch' || !contains(github.event.inputs.version_tag, '-')) }}
@@ -152,7 +152,7 @@ jobs:
         run: flutter pub get
 
       - name: Build macOS Release
-        run: flutter build macos --release --dart-define=GOOGLE_CLIENT_ID="${{ secrets.GOOGLE_CLIENT_ID }}" --dart-define=GOOGLE_CLIENT_SECRET="${{ secrets.GOOGLE_CLIENT_SECRET }}" --dart-define=DISCORD_CLIENT_ID="${{ secrets.DISCORD_CLIENT_ID }}"
+        run: flutter build macos --release --dart-define=GOOGLE_CLIENT_ID="${{ secrets.GOOGLE_CLIENT_ID }}" --dart-define=GOOGLE_CLIENT_SECRET="${{ secrets.GOOGLE_CLIENT_SECRET }}" --dart-define=DISCORD_CLIENT_ID="${{ secrets.DISCORD_CLIENT_ID || '1545409138211823747' }}"
 
       - name: Create DMG Installer
         run: |
@@ -202,7 +202,7 @@ jobs:
         run: flutter pub get
 
       - name: Build Linux Release
-        run: flutter build linux --release --dart-define=GOOGLE_CLIENT_ID="${{ secrets.GOOGLE_CLIENT_ID }}" --dart-define=GOOGLE_CLIENT_SECRET="${{ secrets.GOOGLE_CLIENT_SECRET }}" --dart-define=DISCORD_CLIENT_ID="${{ secrets.DISCORD_CLIENT_ID }}"
+        run: flutter build linux --release --dart-define=GOOGLE_CLIENT_ID="${{ secrets.GOOGLE_CLIENT_ID }}" --dart-define=GOOGLE_CLIENT_SECRET="${{ secrets.GOOGLE_CLIENT_SECRET }}" --dart-define=DISCORD_CLIENT_ID="${{ secrets.DISCORD_CLIENT_ID || '1545409138211823747' }}"
 
       - name: Package Debian (.deb) & Portable (.tar.gz)
         run: |
