@@ -3,7 +3,7 @@ class AppConstants {
 
   static const String appName = 'Desky';
   static const String appVersion = '1.3.0';
-  static const int buildNumber = 21;
+  static const int buildNumber = 22;
   static const String githubRepo = 'huneyoliv/desky';
 
   /// When compiled with `--dart-define=ENABLE_IN_APP_UPDATER=false` (e.g. for Microsoft Store / MSIX),
